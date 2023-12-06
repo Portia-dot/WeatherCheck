@@ -8,32 +8,34 @@ struct WeatherHomeCardStack: View {
     var body: some View {
         ZStack {
             NavigationStack {
-                VStack {
-                    WeatherSearchView(searchText: $searchText, isSearchBarFocused: $isSearchBarFocused)
-                        .frame(maxWidth: .infinity)
-                        .background(Color(UIColor.systemBackground))
-                        .zIndex(1)
+                ScrollView {
+                    VStack {
+                        WeatherSearchView(searchText: $searchText, isSearchBarFocused: $isSearchBarFocused)
+                            .frame(maxWidth: .infinity)
+                            .background(Color(UIColor.systemBackground))
+                            .zIndex(1)
 
-                    if !isSearchBarFocused {
-                        ScrollView {
-                            if let mainWeatherData = viewModel.weatherData {
-                                NavigationLink(destination: WeatherDetailView(weatherData: mainWeatherData )) {
-                                    WeatherHomeCard(weatherData: mainWeatherData, viewModel: viewModel)
-                                        .foregroundColor(.white)
+                        if !isSearchBarFocused {
+                            ScrollView {
+                                if let mainWeatherData = viewModel.weatherData {
+                                    NavigationLink(destination: WeatherDetailView(weatherData: mainWeatherData )) {
+                                        WeatherHomeCard(weatherData: mainWeatherData, viewModel: viewModel)
+                                            .foregroundColor(.white)
+                                    }
                                 }
-                            }
 
-                            ForEach(viewModel.additionalWeatherData, id: \.self) { weatherData in
-                                NavigationLink(destination: WeatherDetailView(weatherData:weatherData)) {
-                                    WeatherHomeCard(weatherData: weatherData, viewModel: viewModel)
-                                        .foregroundColor(.white)
+                                ForEach(viewModel.additionalWeatherData, id: \.self) { weatherData in
+                                    NavigationLink(destination: WeatherDetailView(weatherData:weatherData)) {
+                                        WeatherHomeCard(weatherData: weatherData, viewModel: viewModel)
+                                            .foregroundColor(.white)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                .navigationTitle("Weather")
+                    .navigationTitle("Weather")
                 .navigationBarItems(trailing: DropDownButton())
+                }
             }
 
             if isSearchBarFocused && searchText.isEmpty {

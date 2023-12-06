@@ -13,8 +13,7 @@ class WeatherViewModel: ObservableObject {
     @Published var weatherData: Weathernetworkmodel?
     @Published var isLoading = false
     @Published var errorMessage: String?
-    @Published var cityName: String? // Store city name
-    
+    @Published var cityName: String?
     private var weatherService = NetworkManager()
     private var locationManager = LocationManager.shared
     private var lastFetchedLocation: CLLocationCoordinate2D?
@@ -139,10 +138,15 @@ class WeatherViewModel: ObservableObject {
     func loadWeatherDataForSelectedLocation(_ location: SearchModelElement) {
         loadWeatherData(for: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
     }
+    
+
     //MARK: - Add Weather Card Logic
     
     func addLocationWeatherData(_ weatherData: Weathernetworkmodel){
-        additionalWeatherData.append(weatherData)
+        DispatchQueue.main.async {
+            self.additionalWeatherData.append(weatherData)
+        }
+       
     }
     
     

@@ -20,7 +20,7 @@ struct WeatherHomeCard: View {
                     VStack(alignment: .leading) {
                         HStack {
                             VStack(alignment: .leading) {
-                                Text(weatherData.timezone ?? "Unknown Location")
+                                Text(viewModel.cityName ?? "Unknown Location")
                                     .font(.subheadline)
                                     .fontWeight(.black)
                                 Text(formatUnixTimeStamp(weatherData.current?.dt ?? 0, timezone: weatherData.timezone ?? "UTC"))
@@ -78,9 +78,6 @@ extension String {
         return self.lowercased().split(separator: " ").map { $0.capitalized }.joined(separator: " ")
     }
 }
-
-// Usage Example
-// WeatherHomeCard(weatherData: someWeathernetworkmodelInstance)
 
 struct WeatherCard_Previews: PreviewProvider {
     static var previews: some View {
