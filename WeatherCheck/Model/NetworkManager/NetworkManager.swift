@@ -17,7 +17,6 @@ class NetworkManager {
         let urlString = "https://api.openweathermap.org/data/3.0/onecall?lat=\(lat)&lon=\(lon)&appid=\(apikey)"
         
         guard let url  = URL(string: urlString) else {return}
-        print("URL String: \(urlString)")
         
         URLSession.shared.dataTask(with: url){ data, response, error in
             if let error = error{
@@ -49,7 +48,6 @@ class NetworkManager {
             return
         }
         let urlString = "https://api.openweathermap.org/geo/1.0/direct?q=\(query)&limit=5&appid=\(apikey)"
-        print("URL String: \(urlString)")
                guard let url = URL(string: urlString) else {
                    completion(.failure(NetworkError.invalidURL))
                    return

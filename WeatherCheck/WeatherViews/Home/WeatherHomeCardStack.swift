@@ -18,15 +18,15 @@ struct WeatherHomeCardStack: View {
                         if !isSearchBarFocused {
                             ScrollView {
                                 if let mainWeatherData = viewModel.weatherData {
-                                    NavigationLink(destination: WeatherDetailView(weatherData: mainWeatherData )) {
-                                        WeatherHomeCard(weatherData: mainWeatherData, viewModel: viewModel)
+                                    NavigationLink(destination: WeatherDetailView(weatherData: mainWeatherData)) {
+                                        WeatherHomeCard(cardData: WeatherCardData(cityName: viewModel.cityName ?? "Unknown", weatherData: mainWeatherData))
                                             .foregroundColor(.white)
                                     }
                                 }
 
-                                ForEach(viewModel.additionalWeatherData, id: \.self) { weatherData in
-                                    NavigationLink(destination: WeatherDetailView(weatherData:weatherData)) {
-                                        WeatherHomeCard(weatherData: weatherData, viewModel: viewModel)
+                                ForEach(viewModel.additionalWeatherData, id: \.self) { cardData in
+                                    NavigationLink(destination: WeatherDetailView(weatherData: cardData.weatherData)) {
+                                        WeatherHomeCard(cardData: cardData)
                                             .foregroundColor(.white)
                                     }
                                 }
@@ -34,7 +34,7 @@ struct WeatherHomeCardStack: View {
                         }
                     }
                     .navigationTitle("Weather")
-                .navigationBarItems(trailing: DropDownButton())
+                    .navigationBarItems(trailing: DropDownButton())
                 }
             }
 
@@ -51,3 +51,4 @@ struct WeatherHomeCardStack_Previews: PreviewProvider {
             .environmentObject(WeatherViewModel())
     }
 }
+

@@ -20,7 +20,7 @@ class WeatherViewModel: ObservableObject {
     private var lastFetchTime: Date?
     
     @Published var searchResults: [SearchModelElement] = []
-    @Published var additionalWeatherData: [Weathernetworkmodel] = []
+    @Published var additionalWeatherData: [WeatherCardData] = []
     
     
     init() {
@@ -37,6 +37,8 @@ class WeatherViewModel: ObservableObject {
         print("Loading weather data for location: \(location)")
         isLoading = true
         
+        var cityName: String? // Temporary variable for city name
+
         // Reverse Geocoding to get location name
         let geocoder = CLGeocoder()
         let clLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
@@ -47,11 +49,10 @@ class WeatherViewModel: ObservableObject {
                 return
             }
             if let placemark = placemarks?.first {
-                self?.cityName = placemark.locality ?? "Unknown"
-                print("Location: \(self?.cityName ?? "Unknown")")
+                cityName = placemark.locality
             }
         }
-        
+
         // Fetch Weather Data
         weatherService.fetchWeather(lat: location.latitude, lon: location.longitude) { [weak self] result in
             DispatchQueue.main.async {
@@ -61,6 +62,7 @@ class WeatherViewModel: ObservableObject {
                 case .success(let weatherData):
                     print("Weather data fetched successfully")
                     self?.weatherData = weatherData
+                    self?.cityName = cityName ?? "Unknown" // Update cityName here
                 case .failure(let error):
                     print("Failed to fetch weather data \(error.localizedDescription)")
                     self?.errorMessage = error.localizedDescription
@@ -70,6 +72,7 @@ class WeatherViewModel: ObservableObject {
         
         lastFetchedLocation = location
     }
+
     
     //MARK: - Prevent Mutiple API call
     private func shouldFetchNewData(for newLocation: CLLocationCoordinate2D) -> Bool {
@@ -134,22 +137,42 @@ class WeatherViewModel: ObservableObject {
 
     }
     
-    
+//
+//    func loadWeatherDataForSelectedLocation(_ location: SearchModelElement) {
+//        loadWeatherData(for: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
+//    }
+
     func loadWeatherDataForSelectedLocation(_ location: SearchModelElement) {
-        loadWeatherData(for: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
+        weatherService.fetchWeather(lat: location.lat, lon: location.lon) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fetchedData):
+                    // Reverse geocoding to get the city name for the selected location
+                    let geocoder = CLGeocoder()
+                    let clLocation = CLLocation(latitude: location.lat, longitude: location.lon)
+                    geocoder.reverseGeocodeLocation(clLocation) { (placemarks, error) in
+                        if let placemark = placemarks?.first {
+                            let cityName = placemark.locality ?? "Unknown"
+                            let weatherCardData = WeatherCardData(cityName: cityName, weatherData: fetchedData)
+                            self?.additionalWeatherData.append(weatherCardData)
+                        }
+                    }
+                case .failure(let error):
+                    print("Error fetching weather data: \(error)")
+                }
+            }
+        }
     }
-    
+
+
 
     //MARK: - Add Weather Card Logic
     
-    func addLocationWeatherData(_ weatherData: Weathernetworkmodel){
-        DispatchQueue.main.async {
-            self.additionalWeatherData.append(weatherData)
+    func addLocationWeatherData(_ cardData: WeatherCardData) {
+            DispatchQueue.main.async {
+                self.additionalWeatherData.append(cardData)
+            }
         }
-       
-    }
-    
-    
 }
 
 

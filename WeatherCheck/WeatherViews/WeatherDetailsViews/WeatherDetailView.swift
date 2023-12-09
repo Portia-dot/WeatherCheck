@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WeatherDetailView: View {
     var weatherData: Weathernetworkmodel
+ 
     
     var body: some View {
         VStack(spacing: 10) {

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct WeatherHomeCard: View {
-    var weatherData: Weathernetworkmodel
-    var viewModel: WeatherViewModel
+    var cardData: WeatherCardData
+    
 
     var body: some View {
         ZStack {
@@ -20,25 +20,28 @@ struct WeatherHomeCard: View {
                     VStack(alignment: .leading) {
                         HStack {
                             VStack(alignment: .leading) {
-                                Text(viewModel.cityName ?? "Unknown Location")
+                                Text(cardData.cityName )
                                     .font(.subheadline)
                                     .fontWeight(.black)
-                                Text(formatUnixTimeStamp(weatherData.current?.dt ?? 0, timezone: weatherData.timezone ?? "UTC"))
+                                Text(formatUnixTimeStamp(cardData.weatherData.current?.dt ?? 0, timezone: cardData.weatherData.timezone ?? "UTC"))
                                     .font(.footnote)
                                     .fontWeight(.bold)
+//                                Text(formatUnixTimeStamp(weatherData.current?.dt ?? 0, timezone: weatherData.timezone ?? "UTC"))
+//                                    .font(.footnote)
+//                                    .fontWeight(.bold)
                             }
                             Spacer()
-                            Text("\(weatherData.current?.temp ?? 0, specifier: "%.0f")°")
+                            Text("\(cardData.weatherData.current?.temp ?? 0, specifier: "%.0f")°")
                                 .font(.title)
                                 .fontWeight(.black)
                         }
                         .padding()
                         HStack {
-                            Text(weatherData.current?.weather?.first?.description?.rawValue.capitalizingFirstLetterOfEachWord() ?? "Unknown")
+                            Text(cardData.weatherData.current?.weather?.first?.description?.rawValue.capitalizingFirstLetterOfEachWord() ?? "Unknown")
                                 .font(.footnote)
                                 .fontWeight(.bold)
                             Spacer()
-                            Text("H:\(weatherData.daily?.first?.temp?.max ?? 0, specifier: "%.0f°") L:\(weatherData.daily?.first?.temp?.min ?? 0, specifier: "%.0f°")")
+                            Text("H:\(cardData.weatherData.daily?.first?.temp?.max ?? 0, specifier: "%.0f°") L:\(cardData.weatherData.daily?.first?.temp?.min ?? 0, specifier: "%.0f°")")
                                 .font(.footnote)
                                 .fontWeight(.bold)
                         }
@@ -52,16 +55,23 @@ struct WeatherHomeCard: View {
     }
 
     private func backgroundView() -> some View {
-         let isDayTime = viewModel.isDayTime
-         
-         if let currentWeather = viewModel.weatherData?.current,
-            let weatherCondition = currentWeather.weather?.first?.description
-         {
-             return WeatherBackgroundView(weatherCondition: weatherCondition, isDayTime: isDayTime, isFullScreen: false)
-         }else {
-             return WeatherBackgroundView(weatherCondition: .clearSky, isDayTime: true, isFullScreen: false)
-         }
-     }
+        let isDayTime = checkIfDayTime(weatherData: cardData.weatherData)
+        
+        if let weatherCondition = cardData.weatherData.current?.weather?.first?.description {
+            return WeatherBackgroundView(weatherCondition: weatherCondition, isDayTime: isDayTime, isFullScreen: false)
+        } else {
+            return WeatherBackgroundView(weatherCondition: .clearSky, isDayTime: true, isFullScreen: false)
+        }
+    }
+
+    private func checkIfDayTime(weatherData: Weathernetworkmodel) -> Bool {
+        if let current = weatherData.current {
+            let now = Date().timeIntervalSince1970
+            return now >= Double(current.sunrise ?? 0) && now < Double(current.sunset ?? 0)
+        }
+        return true
+    }
+
     
     private func formatUnixTimeStamp(_ timestamp: Int, timezone: String) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
@@ -155,9 +165,10 @@ struct WeatherCard_Previews: PreviewProvider {
                 )
             ]
         )
+        let mockCardData = WeatherCardData(cityName: "Saskatoon", weatherData: mockWeatherData)
 
         // Use the mock data in the preview
-        WeatherHomeCard(weatherData: mockWeatherData, viewModel: WeatherViewModel())
+        WeatherHomeCard(cardData: mockCardData)
     }
 }
 

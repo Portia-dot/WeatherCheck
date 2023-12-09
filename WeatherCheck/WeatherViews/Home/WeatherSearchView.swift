@@ -100,6 +100,13 @@ struct WeatherSearchView: View {
                 }
         )
         }
+        .onAppear {
+            print("WeatherHomeCardStack appeared. Main weather data: \(String(describing: viewModel.weatherData))")
+        }
+        .onChange(of: viewModel.weatherData) { newData in
+            print("Main weather data changed: \(String(describing: newData))")
+        }
+
     }
     
 //    private var searchResultsList: some View {
@@ -141,7 +148,7 @@ struct WeatherSearchView: View {
             ForEach(viewModel.searchResults, id: \.id) { location in
                 Button(action: {
                     self.selectedLocation = location
-                    viewModel.loadWeatherDataForSelectedLocation(location)
+//                    viewModel.loadWeatherDataForSelectedLocation(location)
                 }) {
                     Text("\(location.name ?? "Unknown Value"), \(location.state ?? ""), \(location.country ?? "")")
                         .fontWeight(.bold)
@@ -154,13 +161,20 @@ struct WeatherSearchView: View {
     }
 
     
-   private func addCard(){
-       if let weatherData = viewModel.weatherData {
-           viewModel.addLocationWeatherData(weatherData)
+//   private func addCard(){
+//       if let weatherData = viewModel.weatherData {
+//           viewModel.addLocationWeatherData(weatherData)
+//        }
+//        self.selectedLocation = nil
+//    }
+    
+    private func addCard() {
+        if let selectedLocation = selectedLocation {
+            viewModel.loadWeatherDataForSelectedLocation(selectedLocation)
         }
         self.selectedLocation = nil
     }
-    
+
 }
 
 struct WeatherSearchView_Previews: PreviewProvider {

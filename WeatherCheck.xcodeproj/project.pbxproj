@@ -29,6 +29,7 @@
 		83C73F622B1135E50032A40D /* WeatherDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C73F612B1135E50032A40D /* WeatherDetailView.swift */; };
 		83C73F662B11361C0032A40D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C73F652B11361C0032A40D /* NetworkManager.swift */; };
 		83C73F692B1136D10032A40D /* WeatherSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C73F682B1136D10032A40D /* WeatherSearchView.swift */; };
+		83DB4A342B23ED9800687DF2 /* WeatherCardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DB4A332B23ED9800687DF2 /* WeatherCardData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		83C73F612B1135E50032A40D /* WeatherDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailView.swift; sourceTree = "<group>"; };
 		83C73F652B11361C0032A40D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		83C73F682B1136D10032A40D /* WeatherSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSearchView.swift; sourceTree = "<group>"; };
+		83DB4A332B23ED9800687DF2 /* WeatherCardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				833D91EA2B16A4C200249714 /* WeatherViewModel.swift */,
+				83DB4A332B23ED9800687DF2 /* WeatherCardData.swift */,
 			);
 			path = WeatherViewModel;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			files = (
 				83C73F512B1132800032A40D /* Persistence.swift in Sources */,
 				83C73F4A2B11327E0032A40D /* ContentView.swift in Sources */,
+				83DB4A342B23ED9800687DF2 /* WeatherCardData.swift in Sources */,
 				838BD9592B19476B00078011 /* Debouncer.swift in Sources */,
 				836C494C2B15B5700047F6DF /* DropDownButton.swift in Sources */,
 				83C73F5F2B1135710032A40D /* WeatherHomeCard.swift in Sources */,
