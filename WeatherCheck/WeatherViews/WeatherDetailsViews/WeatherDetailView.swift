@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WeatherDetailView: View {
-    var weatherData: Weathernetworkmodel
+    var cardData: WeatherCardData
  
     
     var body: some View {
@@ -16,14 +16,14 @@ struct WeatherDetailView: View {
             Text("My Location")
                 .font(.title)
                 .bold()
-            Text(weatherData.timezone ?? "Unknown Location")
+            Text(cardData.weatherData.timezone ?? "Unknown Location")
                 .font(.caption)
-            Text("\(weatherData.current?.temp ?? 0, specifier: "%.0f°")")
+            Text("\(cardData.weatherData.current?.temp ?? 0, specifier: "%.0f°")")
                 .font(.system(size: 80))
                 .fontWeight(.bold)
-            Text(weatherData.current?.weather?.first?.description?.rawValue.capitalizingFirstLetterOfEachWord() ?? "Unknown")
+            Text(cardData.weatherData.current?.weather?.first?.description?.rawValue.capitalizingFirstLetterOfEachWord() ?? "Unknown")
                 .font(.title3)
-            Text("H:\(weatherData.daily?.first?.temp?.max ?? 0, specifier: "%.0f°") L:\(weatherData.daily?.first?.temp?.min ?? 0, specifier: "%.0f°")")
+            Text("H:\(cardData.weatherData.daily?.first?.temp?.max ?? 0, specifier: "%.0f°") L:\(cardData.weatherData.daily?.first?.temp?.min ?? 0, specifier: "%.0f°")")
                 .font(.caption)
         }
         .padding()
@@ -33,11 +33,8 @@ struct WeatherDetailView: View {
 
 struct WeatherDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        WeatherDetailView(weatherData: mockWeatherData)
-    }
-
-    static var mockWeatherData: Weathernetworkmodel {
-        Weathernetworkmodel(
+        // Create a mock instance of Weathernetworkmodel
+        let mockWeatherData = Weathernetworkmodel(
             lat: 52.1332,
             lon: -106.6700,
             timezone: "Saskatoon",
@@ -75,7 +72,8 @@ struct WeatherDetailView_Previews: PreviewProvider {
                     sunset: 1605056000,
                     moonrise: 1605000000,
                     moonset: 1605030000,
-                    moonPhase: 0.25, summary: "Cloudy",
+                    moonPhase: 0.25,
+                    summary: "Clear day",
                     temp: Temp(
                         day: 23.0,
                         min: 18.0,
@@ -109,5 +107,8 @@ struct WeatherDetailView_Previews: PreviewProvider {
                 )
             ]
         )
+        let mockCardData = WeatherCardData(cityName: "Saskatoon", weatherData: mockWeatherData)
+        // Use the mock data in the preview
+        WeatherHomeCard(cardData: mockCardData)
     }
 }

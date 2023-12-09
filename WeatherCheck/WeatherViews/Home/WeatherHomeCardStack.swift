@@ -4,6 +4,8 @@ struct WeatherHomeCardStack: View {
     @State private var searchText = ""
     @State private var isSearchBarFocused = false
     @EnvironmentObject var viewModel: WeatherViewModel
+   
+    
 
     var body: some View {
         ZStack {
@@ -17,15 +19,18 @@ struct WeatherHomeCardStack: View {
 
                         if !isSearchBarFocused {
                             ScrollView {
+                                // For the main weather data
                                 if let mainWeatherData = viewModel.weatherData {
-                                    NavigationLink(destination: WeatherDetailView(weatherData: mainWeatherData)) {
-                                        WeatherHomeCard(cardData: WeatherCardData(cityName: viewModel.cityName ?? "Unknown", weatherData: mainWeatherData))
+                                    let mainCardData = WeatherCardData(cityName: viewModel.cityName ?? "Unknown", weatherData: mainWeatherData)
+                                    NavigationLink(destination: WeatherDetailView(cardData: mainCardData)) {
+                                        WeatherHomeCard(cardData: mainCardData)
                                             .foregroundColor(.white)
                                     }
                                 }
 
+                                // For additional weather data
                                 ForEach(viewModel.additionalWeatherData, id: \.self) { cardData in
-                                    NavigationLink(destination: WeatherDetailView(weatherData: cardData.weatherData)) {
+                                    NavigationLink(destination: WeatherDetailView(cardData: cardData)) {
                                         WeatherHomeCard(cardData: cardData)
                                             .foregroundColor(.white)
                                     }
@@ -51,4 +56,3 @@ struct WeatherHomeCardStack_Previews: PreviewProvider {
             .environmentObject(WeatherViewModel())
     }
 }
-

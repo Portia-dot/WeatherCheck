@@ -142,8 +142,8 @@ class WeatherViewModel: ObservableObject {
 //        loadWeatherData(for: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
 //    }
 
-    func loadWeatherDataForSelectedLocation(_ location: SearchModelElement) {
-        weatherService.fetchWeather(lat: location.lat, lon: location.lon) { [weak self] result in
+    func loadWeatherDataForSelectedLocation(_ location: SearchModelElement, completion: @escaping (WeatherCardData?) -> Void) {
+        weatherService.fetchWeather(lat: location.lat, lon: location.lon) {result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let fetchedData):
@@ -154,11 +154,14 @@ class WeatherViewModel: ObservableObject {
                         if let placemark = placemarks?.first {
                             let cityName = placemark.locality ?? "Unknown"
                             let weatherCardData = WeatherCardData(cityName: cityName, weatherData: fetchedData)
-                            self?.additionalWeatherData.append(weatherCardData)
+                            completion(weatherCardData)
+                        } else {
+                            completion(nil)
                         }
                     }
                 case .failure(let error):
                     print("Error fetching weather data: \(error)")
+                    completion(nil)
                 }
             }
         }
