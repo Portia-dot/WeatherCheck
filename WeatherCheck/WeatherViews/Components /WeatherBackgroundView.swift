@@ -30,6 +30,7 @@ struct WeatherBackgroundView: View {
             .cornerRadius(10)
             .padding()
         }
+            
     }
 }
 

@@ -67,6 +67,7 @@ enum Main: String, Codable, Hashable {
     case clear = "Clear"
     case clouds = "Clouds"
     case rain = "Rain"
+    case snow = "Snow"
 }
 
 // MARK: - Daily

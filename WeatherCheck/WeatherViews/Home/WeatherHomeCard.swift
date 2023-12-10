@@ -9,11 +9,14 @@ import SwiftUI
 
 struct WeatherHomeCard: View {
     var cardData: WeatherCardData
+    @State private var showDetail = false
     
 
     var body: some View {
+        let background = backgroundView(for: cardData.weatherData, isFullScreen: showDetail)
+
         ZStack {
-            backgroundView()
+            background.view
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.clear)
                 .overlay(
@@ -26,9 +29,7 @@ struct WeatherHomeCard: View {
                                 Text(formatUnixTimeStamp(cardData.weatherData.current?.dt ?? 0, timezone: cardData.weatherData.timezone ?? "UTC"))
                                     .font(.footnote)
                                     .fontWeight(.bold)
-//                                Text(formatUnixTimeStamp(weatherData.current?.dt ?? 0, timezone: weatherData.timezone ?? "UTC"))
-//                                    .font(.footnote)
-//                                    .fontWeight(.bold)
+                                .fontWeight(.bold)
                             }
                             Spacer()
                             Text("\(cardData.weatherData.current?.temp ?? 0, specifier: "%.0f")°")
@@ -48,29 +49,15 @@ struct WeatherHomeCard: View {
                         .padding()
                     }
                     .padding()
+                    .foregroundColor(background.isDayTime ? .black : .white)
                 )
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal)
         }
-    }
-
-    private func backgroundView() -> some View {
-        let isDayTime = checkIfDayTime(weatherData: cardData.weatherData)
         
-        if let weatherCondition = cardData.weatherData.current?.weather?.first?.description {
-            return WeatherBackgroundView(weatherCondition: weatherCondition, isDayTime: isDayTime, isFullScreen: false)
-        } else {
-            return WeatherBackgroundView(weatherCondition: .clearSky, isDayTime: true, isFullScreen: false)
-        }
     }
 
-    private func checkIfDayTime(weatherData: Weathernetworkmodel) -> Bool {
-        if let current = weatherData.current {
-            let now = Date().timeIntervalSince1970
-            return now >= Double(current.sunrise ?? 0) && now < Double(current.sunset ?? 0)
-        }
-        return true
-    }
+   
 
     
     private func formatUnixTimeStamp(_ timestamp: Int, timezone: String) -> String {

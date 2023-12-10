@@ -110,14 +110,6 @@ class WeatherViewModel: ObservableObject {
     
     //MARK: -  Background
     
-    var isDayTime: Bool{
-        if let current = weatherData?.current{
-            let now = Date().timeIntervalSince1970
-            return now >= Double(current.sunrise ?? 0 ) && now < Double(current.sunset ?? 0)
-        }
-        return true
-    }
-    
  //MARK: - Search Weather
     func searchWeather(query: String) {
         isLoading = true

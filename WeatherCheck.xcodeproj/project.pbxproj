@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		832328102B242A73006BE9A0 /* ReuseableFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8323280F2B242A73006BE9A0 /* ReuseableFunctions.swift */; };
 		833D91E92B169DFB00249714 /* WeatherModelNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D91E82B169DFB00249714 /* WeatherModelNetwork.swift */; };
 		833D91EB2B16A4C200249714 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D91EA2B16A4C200249714 /* WeatherViewModel.swift */; };
 		833D91EE2B16A5AE00249714 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D91ED2B16A5AE00249714 /* LocationManager.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8323280F2B242A73006BE9A0 /* ReuseableFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseableFunctions.swift; sourceTree = "<group>"; };
 		833D91E82B169DFB00249714 /* WeatherModelNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModelNetwork.swift; sourceTree = "<group>"; };
 		833D91EA2B16A4C200249714 /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		833D91ED2B16A5AE00249714 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				836C494D2B15B79A0047F6DF /* DropDownMenu.swift */,
 				836C494F2B15B89A0047F6DF /* MenuOptionView.swift */,
 				838BD9542B19123400078011 /* WeatherBackgroundView.swift */,
+				8323280F2B242A73006BE9A0 /* ReuseableFunctions.swift */,
 			);
 			path = "Components ";
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				83C73F692B1136D10032A40D /* WeatherSearchView.swift in Sources */,
 				833D91E92B169DFB00249714 /* WeatherModelNetwork.swift in Sources */,
 				83C73F622B1135E50032A40D /* WeatherDetailView.swift in Sources */,
+				832328102B242A73006BE9A0 /* ReuseableFunctions.swift in Sources */,
 				83C73F5D2B1135580032A40D /* WeatherHomeView.swift in Sources */,
 				833D91EB2B16A4C200249714 /* WeatherViewModel.swift in Sources */,
 				836C49492B15AD5F0047F6DF /* WeatherHomeCardStack.swift in Sources */,

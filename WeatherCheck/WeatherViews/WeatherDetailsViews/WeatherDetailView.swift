@@ -12,21 +12,29 @@ struct WeatherDetailView: View {
  
     
     var body: some View {
-        VStack(spacing: 10) {
-            Text("My Location")
-                .font(.title)
-                .bold()
-            Text(cardData.weatherData.timezone ?? "Unknown Location")
-                .font(.caption)
-            Text("\(cardData.weatherData.current?.temp ?? 0, specifier: "%.0f°")")
-                .font(.system(size: 80))
-                .fontWeight(.bold)
-            Text(cardData.weatherData.current?.weather?.first?.description?.rawValue.capitalizingFirstLetterOfEachWord() ?? "Unknown")
-                .font(.title3)
-            Text("H:\(cardData.weatherData.daily?.first?.temp?.max ?? 0, specifier: "%.0f°") L:\(cardData.weatherData.daily?.first?.temp?.min ?? 0, specifier: "%.0f°")")
-                .font(.caption)
+        let background = backgroundView(for: cardData.weatherData, isFullScreen: true)
+        ZStack {
+            background.view
+            .edgesIgnoringSafeArea(.all)
+            
+            VStack(spacing: 10) {
+                Text("My Location")
+                    .font(.title)
+                    .bold()
+                Text(cardData.cityName )
+                    .font(.caption)
+                Text("\(cardData.weatherData.current?.temp ?? 0, specifier: "%.0f°")")
+                    .font(.system(size: 80))
+                    .fontWeight(.bold)
+                Text(cardData.weatherData.current?.weather?.first?.description?.rawValue.capitalizingFirstLetterOfEachWord() ?? "Unknown")
+                    .font(.title3)
+                Text("H:\(cardData.weatherData.daily?.first?.temp?.max ?? 0, specifier: "%.0f°") L:\(cardData.weatherData.daily?.first?.temp?.min ?? 0, specifier: "%.0f°")")
+                    .font(.caption)
+            }
+            .padding()
+            .foregroundStyle(background.isDayTime ? .black :.white)
+            
         }
-        .padding()
     }
 }
 
@@ -109,6 +117,6 @@ struct WeatherDetailView_Previews: PreviewProvider {
         )
         let mockCardData = WeatherCardData(cityName: "Saskatoon", weatherData: mockWeatherData)
         // Use the mock data in the preview
-        WeatherHomeCard(cardData: mockCardData)
+        WeatherDetailView(cardData: mockCardData)
     }
 }
