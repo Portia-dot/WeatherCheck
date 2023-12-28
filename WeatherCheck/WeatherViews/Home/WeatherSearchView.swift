@@ -26,7 +26,7 @@ struct WeatherSearchView: View {
         .sheet(item: $selectedLocation) { _ in
             if let cardData = cardDataToShow {
                 NavigationView {
-                    WeatherDetailView(cardData: cardData)
+                    WeatherDetailView(cardData: cardData, currentLocation: false)
                         .navigationBarItems(
                             leading: Button("Cancel") {
                                 self.selectedLocation = nil

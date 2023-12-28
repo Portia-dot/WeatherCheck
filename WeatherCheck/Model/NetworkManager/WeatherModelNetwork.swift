@@ -68,6 +68,16 @@ enum Main: String, Codable, Hashable {
     case clouds = "Clouds"
     case rain = "Rain"
     case snow = "Snow"
+    case haze = "Haze"
+    case mist = "Mist"
+    case unknown 
+    
+    
+    init(from decoder: Decoder) throws {
+           let container = try decoder.singleValueContainer()
+           let stringValue = try container.decode(String.self)
+           self = Main(rawValue: stringValue) ?? .unknown
+       }
 }
 
 // MARK: - Daily
@@ -100,6 +110,7 @@ struct Temp: Decodable, Hashable {
 
 // MARK: - Minutely
 struct Minutely: Decodable, Hashable {
-    let dt, precipitation: Int?
+    let dt : Int?
+    let precipitation: Double?
 }
 

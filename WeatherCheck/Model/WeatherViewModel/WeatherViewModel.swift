@@ -174,3 +174,10 @@ class WeatherViewModel: ObservableObject {
 extension Notification.Name {
     static let locationDidUpdate = Notification.Name("locationDidUpdate")
 }
+
+extension Double {
+    func kelvinToCelsiusString() -> String {
+        let celsius = self - 273.15
+        return String(format: "%.0f", celsius)
+    }
+}

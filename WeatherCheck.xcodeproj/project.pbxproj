@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		831E79A22B2EBAE800512875 /* CustomDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831E79A12B2EBAE800512875 /* CustomDivider.swift */; };
+		831E79A42B2ECB4000512875 /* TenDayForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831E79A32B2ECB4000512875 /* TenDayForecast.swift */; };
+		831E79A62B2EEA1700512875 /* CustomTempratureBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831E79A52B2EEA1700512875 /* CustomTempratureBar.swift */; };
 		832328102B242A73006BE9A0 /* ReuseableFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8323280F2B242A73006BE9A0 /* ReuseableFunctions.swift */; };
 		833D91E92B169DFB00249714 /* WeatherModelNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D91E82B169DFB00249714 /* WeatherModelNetwork.swift */; };
 		833D91EB2B16A4C200249714 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D91EA2B16A4C200249714 /* WeatherViewModel.swift */; };
@@ -30,10 +33,14 @@
 		83C73F622B1135E50032A40D /* WeatherDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C73F612B1135E50032A40D /* WeatherDetailView.swift */; };
 		83C73F662B11361C0032A40D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C73F652B11361C0032A40D /* NetworkManager.swift */; };
 		83C73F692B1136D10032A40D /* WeatherSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C73F682B1136D10032A40D /* WeatherSearchView.swift */; };
+		83C8FC252B25A567002CD236 /* WeatherIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C8FC242B25A566002CD236 /* WeatherIconView.swift */; };
 		83DB4A342B23ED9800687DF2 /* WeatherCardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DB4A332B23ED9800687DF2 /* WeatherCardData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		831E79A12B2EBAE800512875 /* CustomDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDivider.swift; sourceTree = "<group>"; };
+		831E79A32B2ECB4000512875 /* TenDayForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDayForecast.swift; sourceTree = "<group>"; };
+		831E79A52B2EEA1700512875 /* CustomTempratureBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTempratureBar.swift; sourceTree = "<group>"; };
 		8323280F2B242A73006BE9A0 /* ReuseableFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseableFunctions.swift; sourceTree = "<group>"; };
 		833D91E82B169DFB00249714 /* WeatherModelNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModelNetwork.swift; sourceTree = "<group>"; };
 		833D91EA2B16A4C200249714 /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
@@ -59,6 +66,7 @@
 		83C73F612B1135E50032A40D /* WeatherDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailView.swift; sourceTree = "<group>"; };
 		83C73F652B11361C0032A40D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		83C73F682B1136D10032A40D /* WeatherSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSearchView.swift; sourceTree = "<group>"; };
+		83C8FC242B25A566002CD236 /* WeatherIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconView.swift; sourceTree = "<group>"; };
 		83DB4A332B23ED9800687DF2 /* WeatherCardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +98,9 @@
 				836C494F2B15B89A0047F6DF /* MenuOptionView.swift */,
 				838BD9542B19123400078011 /* WeatherBackgroundView.swift */,
 				8323280F2B242A73006BE9A0 /* ReuseableFunctions.swift */,
+				83C8FC242B25A566002CD236 /* WeatherIconView.swift */,
+				831E79A12B2EBAE800512875 /* CustomDivider.swift */,
+				831E79A52B2EEA1700512875 /* CustomTempratureBar.swift */,
 			);
 			path = "Components ";
 			sourceTree = "<group>";
@@ -160,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				83C73F612B1135E50032A40D /* WeatherDetailView.swift */,
+				831E79A32B2ECB4000512875 /* TenDayForecast.swift */,
 			);
 			path = WeatherDetailsViews;
 			sourceTree = "<group>";
@@ -267,9 +279,12 @@
 				83C73F4A2B11327E0032A40D /* ContentView.swift in Sources */,
 				83DB4A342B23ED9800687DF2 /* WeatherCardData.swift in Sources */,
 				838BD9592B19476B00078011 /* Debouncer.swift in Sources */,
+				831E79A42B2ECB4000512875 /* TenDayForecast.swift in Sources */,
 				836C494C2B15B5700047F6DF /* DropDownButton.swift in Sources */,
 				83C73F5F2B1135710032A40D /* WeatherHomeCard.swift in Sources */,
+				83C8FC252B25A567002CD236 /* WeatherIconView.swift in Sources */,
 				833D91EE2B16A5AE00249714 /* LocationManager.swift in Sources */,
+				831E79A22B2EBAE800512875 /* CustomDivider.swift in Sources */,
 				83C73F482B11327E0032A40D /* WeatherCheckApp.swift in Sources */,
 				838BD9572B1939DA00078011 /* SearchModel.swift in Sources */,
 				83C73F662B11361C0032A40D /* NetworkManager.swift in Sources */,
@@ -283,6 +298,7 @@
 				836C49492B15AD5F0047F6DF /* WeatherHomeCardStack.swift in Sources */,
 				83C73F542B1132800032A40D /* WeatherCheck.xcdatamodeld in Sources */,
 				836C49502B15B89A0047F6DF /* MenuOptionView.swift in Sources */,
+				831E79A62B2EEA1700512875 /* CustomTempratureBar.swift in Sources */,
 				836C494E2B15B79A0047F6DF /* DropDownMenu.swift in Sources */,
 				838BD9552B19123400078011 /* WeatherBackgroundView.swift in Sources */,
 			);

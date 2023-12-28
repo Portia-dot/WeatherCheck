@@ -9,35 +9,153 @@ import SwiftUI
 
 struct WeatherDetailView: View {
     var cardData: WeatherCardData
- 
+    var currentLocation: Bool
+    
     
     var body: some View {
+        //HourlyFilter
+        let currentTimestamp = Int(Date().addingTimeInterval(TimeInterval(cardData.weatherData.timezoneOffset ?? 0)).timeIntervalSince1970)
+        let futureHourlyForecast = cardData.weatherData.hourly?.filter { hourData in
+            guard let hourTimestamp = hourData.dt else { return false }
+            return hourTimestamp >= currentTimestamp
+        } ?? []
+        //Backgrounds
         let background = backgroundView(for: cardData.weatherData, isFullScreen: true)
+        let dailyForecasts = cardData.weatherData.daily?.prefix(10) ?? []
+        let timezoneOffSet = cardData.weatherData.timezoneOffset ?? 0
+        //Card One
         ZStack {
-            background.view
-            .edgesIgnoringSafeArea(.all)
-            
-            VStack(spacing: 10) {
-                Text("My Location")
-                    .font(.title)
-                    .bold()
-                Text(cardData.cityName )
-                    .font(.caption)
-                Text("\(cardData.weatherData.current?.temp ?? 0, specifier: "%.0f°")")
-                    .font(.system(size: 80))
-                    .fontWeight(.bold)
-                Text(cardData.weatherData.current?.weather?.first?.description?.rawValue.capitalizingFirstLetterOfEachWord() ?? "Unknown")
-                    .font(.title3)
-                Text("H:\(cardData.weatherData.daily?.first?.temp?.max ?? 0, specifier: "%.0f°") L:\(cardData.weatherData.daily?.first?.temp?.min ?? 0, specifier: "%.0f°")")
-                    .font(.caption)
+            GeometryReader{ geometry in
+                VStack{
+                    background.view
+                }
+                .frame(width: geometry.size.width, height: geometry.size.height)
             }
-            .padding()
-            .foregroundStyle(background.isDayTime ? .black :.white)
+                .edgesIgnoringSafeArea(.all)
             
+            ScrollView {
+                VStack {
+                    VStack(spacing: 10) {
+                        if  currentLocation {
+                            Text("My Location")
+                                .font(.title)
+                                .bold()
+                            Text(cardData.cityName )
+                                .font(.title2)
+                                .bold()
+                        }else {
+                            Text(cardData.cityName )
+                                .font(.title)
+                                .bold()
+                        }
+                        
+                        Text("\(cardData.weatherData.current?.temp ?? 0, specifier: "%.0f°")")
+                            .font(.system(size: 80))
+                            .fontWeight(.bold)
+                        Text(cardData.weatherData.current?.weather?.first?.description?.rawValue.capitalizingFirstLetterOfEachWord() ?? "Unknown")
+                            .font(.title3)
+                        Text("H:\(cardData.weatherData.daily?.first?.temp?.max ?? 0, specifier: "%.0f°") L:\(cardData.weatherData.daily?.first?.temp?.min ?? 0, specifier: "%.0f°")")
+                            .font(.caption)
+                    }
+                    ZStack {
+                        VStack {
+                            Text(cardData.weatherData.daily?.first?.summary ?? "Loading Summary")
+                                .font(.footnote)
+                            CustomDivider(color: background.isDayTime ? .black : .white )
+                                .padding()
+                            ScrollViewReader { proxy in
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 20) {
+                                        ForEach(futureHourlyForecast, id: \.dt) { hourData in
+                                            VStack {
+                                                Text((hourData.dt == currentTimestamp ? "Now" : hourData.dt?.toLocalTimeString(timezoneOffset: cardData.weatherData.timezoneOffset ?? 0)) ?? "N/A")
+                                                    .font(.footnote)
+                                                    .bold()
+                                                if let iconCode = hourData.weather?.first?.icon {
+                                                    WeatherIconView(iconCode: iconCode)
+                                                } else {
+                                                    Image(systemName: "questionmark")
+                                                }
+                                                Text("\(hourData.temp?.toTemperatureString() ?? "0")°")
+                                                    .font(.footnote)
+                                                    .bold()
+                                            }
+                                            .id(hourData.dt)
+                                        }
+                                    }
+                                    .onAppear {
+                                        if let currentHour = futureHourlyForecast.first(where: { $0.dt == currentTimestamp }) {
+                                            proxy.scrollTo(currentHour.dt, anchor: .leading)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 15)
+                        .foregroundColor(.white)
+                        .opacity(0.1)
+                        .shadow(radius: 5))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color.white, lineWidth: 0)
+                    )
+                    
+                    ZStack{
+                       TenDayForecast(dailyForecast: Array(dailyForecasts), timezoneOffset: timezoneOffSet, cardData: cardData)
+                            .padding()
+                    }
+                    .background(RoundedRectangle(cornerRadius: 15)
+                                            .foregroundColor(.white)
+                                            .opacity(0.1)
+                                            .shadow(radius: 5))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 15)
+                                                .stroke(Color.white, lineWidth: 0)
+                                        )
+                                    
+                }
+                .padding()
+            .foregroundStyle(background.isDayTime ? .black :.white)
+            }
         }
+    }
+    
+}
+
+extension Int {
+    
+    func isInFuture(comparedTo currentTime: Int) -> Bool {
+        return self >= currentTime
+    }
+    
+        func toLocalTimeString(timezoneOffset: Int) -> String {
+            let localDate = Date(timeIntervalSince1970: TimeInterval(self))
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "ha" // Adjust format as needed
+            dateFormatter.timeZone = TimeZone(secondsFromGMT: timezoneOffset)
+            return dateFormatter.string(from: localDate)
+        }
+
+    func toLocalTime() -> Date {
+           let date = Date(timeIntervalSince1970: TimeInterval(self))
+           return date
+       }
+}
+extension Double {
+    func toTemperatureString() -> String {
+        let celsiusTemp = self - 273.15
+        return String(format: "%.0f", celsiusTemp)
     }
 }
 
+extension Weathernetworkmodel {
+    var currentHourUnixTimestamp: Int {
+        return Int(Date().timeIntervalSince1970)
+    }
+}
 
 struct WeatherDetailView_Previews: PreviewProvider {
     static var previews: some View {
@@ -117,6 +235,6 @@ struct WeatherDetailView_Previews: PreviewProvider {
         )
         let mockCardData = WeatherCardData(cityName: "Saskatoon", weatherData: mockWeatherData)
         // Use the mock data in the preview
-        WeatherDetailView(cardData: mockCardData)
+        WeatherDetailView(cardData: mockCardData, currentLocation: true)
     }
 }

@@ -22,7 +22,7 @@ struct WeatherHomeCardStack: View {
                                 // For the main weather data
                                 if let mainWeatherData = viewModel.weatherData {
                                     let mainCardData = WeatherCardData(cityName: viewModel.cityName ?? "Unknown", weatherData: mainWeatherData)
-                                    NavigationLink(destination: WeatherDetailView(cardData: mainCardData)) {
+                                    NavigationLink(destination: WeatherDetailView(cardData: mainCardData, currentLocation: true)) {
                                         WeatherHomeCard(cardData: mainCardData)
                                             .foregroundColor(.white)
                                     }
@@ -30,7 +30,7 @@ struct WeatherHomeCardStack: View {
 
                                 // For additional weather data
                                 ForEach(viewModel.additionalWeatherData, id: \.self) { cardData in
-                                    NavigationLink(destination: WeatherDetailView(cardData: cardData)) {
+                                    NavigationLink(destination: WeatherDetailView(cardData: cardData, currentLocation: false)) {
                                         WeatherHomeCard(cardData: cardData)
                                             .foregroundColor(.white)
                                     }
